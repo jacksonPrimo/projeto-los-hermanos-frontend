@@ -12,6 +12,14 @@ const routes = [
 			{
 				path: '',
 				component: () => import('../views/Home.vue'),
+			},
+			{
+				path: 'postagens',
+				component: () => import('../views/Posts.vue'),
+			},
+			{
+				path: 'perfil',
+				component: () => import('../views/Profile.vue'),
 			}
 		]
 	},

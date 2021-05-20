@@ -1,5 +1,4 @@
 import axios from '../../services/axios'
-import { parseJwt } from '../../utils/converters'
 export default {
   namespaced: true,
   state: () => ({ 
@@ -8,22 +7,25 @@ export default {
   }),
   getters: {
     authenticated: state => !!state.token,
-    userAuthenticated: state => (state.user ? JSON.parse(state.user) : {}),
+    // eslint-disable-next-line no-extra-boolean-cast
+    userAuthenticated: state => (!!state.user) ? JSON.parse(state.user) : {},
   },
   actions: {
-    async signIn({ commit }, user){
+    async signIn({ commit }, userSignin){
       try {
-        const res = await axios.post('auth/signin', user)
+        const res = await axios.post('auth/signin', userSignin)
+        const { user, token } = res.data
+        commit('setUser', JSON.stringify(user))
+        commit('setToken', token)
         commit('signIn', res.data)
-        commit('setToken', res.data.token)
-        commit('setUser', JSON.stringify(parseJwt(res.data.token)))
       }
       catch(err){
         console.error(err)
         throw err
       }
     },
-    async signUp(user){
+    // eslint-disable-next-line no-unused-vars
+    async signUp({ commit }, user){
       try {
         await axios.post('auth/signup', user)
       }
@@ -33,33 +35,20 @@ export default {
       }
     },
     async signOut({commit}){
-      try {
-        await axios.post('auth/signout')
-        commit('signOut')
-        commit('setToken', '')
-      }
-      catch(err){
-      if (err.response.status === 403) {
-        commit('signOut')
-        commit('setToken', '')
-        return
-      }
-      console.error(err)
-      throw err
-      }
+      commit('setToken', '')
+      commit('setUser', '')
+      commit('signOut')
     }
   },
   mutations: {
-		signIn(state, user) {
-      console.log('user', user)
-			const { token } = user
-			const jwtUser = parseJwt(token)
-			localStorage.setItem('user', JSON.stringify(jwtUser))
+    signIn(state, data) {
+			const { token, user } = data
+			localStorage.setItem('user', JSON.stringify(user))
 			localStorage.setItem('token', token)
 		},
 		signOut() {
-			localStorage.removeItem('token')
-			localStorage.removeItem('user')
+			localStorage.setItem('token', '')
+			localStorage.setItem('user', '')
 		},
 		setToken(state, token) {
 			state.token = token
