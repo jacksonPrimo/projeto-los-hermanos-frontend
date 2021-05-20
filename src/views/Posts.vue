@@ -137,7 +137,6 @@ export default {
       this.noticeIdToEdit = null
       this.formCreateNotice.title = ""
       this.formCreateNotice.description = ""
-      this.formCreateNotice.userId = ""
     }
   }
 }
