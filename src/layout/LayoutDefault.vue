@@ -21,7 +21,7 @@
                   {{ userAuthenticated.email }}
                 </em>
               </template>
-              <b-dropdown-item href="perfil">Profile</b-dropdown-item>
+              <b-dropdown-item to="perfil">Profile</b-dropdown-item>
               <b-dropdown-item @click="logout()">Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
           </template>
