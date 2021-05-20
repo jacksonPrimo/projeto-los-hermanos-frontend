@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <div v-if="noticeList.length" class="d-flex flex-wrap pt-1">
-      <div v-for="(notice, index) in noticeList" :key="index" class="col-lg-3 col-md-6 col-ls-1">
+      <div v-for="(notice, index) in noticeList" :key="index" class="col-lg-3 col-md-6 col-ls-1 py-4">
         <Notice :title="notice.title" :description="notice.description"></Notice>
       </div>
     </div>
@@ -30,7 +30,7 @@ export default {
   mounted(){
     axios.get('notices').then(
       resp=>{
-        console.log(resp)
+        this.noticeList = resp.data
       },
       error=>{
         console.log({...error})

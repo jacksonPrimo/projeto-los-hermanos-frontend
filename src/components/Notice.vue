@@ -1,7 +1,7 @@
 <template>
-  <div class="card">
-    <h2>{{title}}</h2>
-    <p>{{description}}</p>
+  <div class="card py-2">
+    <h3 class="card-title">{{title}}</h3>
+    <p class="card-text">{{description}}</p>
   </div>
 </template>
 <script>
