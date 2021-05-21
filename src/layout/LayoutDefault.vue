@@ -197,9 +197,9 @@ export default {
     },
     logout(){
       this.signOut()
+      this.$router.push({ path: '/' })
     },
     register(){
-      console.log(this.formSignup)
       this.signUp(this.formSignup).then(
         () => {
           alert('usuário cadastrado, agora faça login')
