@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import guard from './guard'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,10 +15,12 @@ const routes = [
 			},
 			{
 				path: 'postagens',
+				beforeEnter: guard.admin,
 				component: () => import('../views/Posts.vue'),
 			},
 			{
 				path: 'perfil',
+				beforeEnter: guard.auth,
 				component: () => import('../views/Profile.vue'),
 			}
 		]
